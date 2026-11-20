@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "566255854254",
+    "project_id": "nesru-peacet",
+    "storage_bucket": "nesru-peacet.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:566255854254:android:ef4a908f7180c3d43a033f",
+        "android_client_info": {
+          "package_name": "com.nesrupeacet.com"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAz_VWn3Rx-8SFtcPCnaactRKnUKEqi1Wo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

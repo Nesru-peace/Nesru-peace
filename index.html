@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="om">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="description" content="Nesru Peace - Social Media, Direct Messages, Search, Categories, Groups, Channels, Settings Menu, About, Contact & Legal PWA" />
+  <title>Nesru Peace | Social Media</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Toast Notification -->
+  <div id="toastBanner" class="toast hidden"></div>
+
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand" id="homeBrandBtn" style="cursor:pointer;">
+        <span class="brand-logo">🕊️</span>
+        <h1>Nesru Peace</h1>
+      </div>
+
+      <!-- Global Search Bar -->
+      <div id="navSearchWrapper" class="nav-search hidden">
+        <input type="search" id="globalSearchInput" placeholder="🔍 Barbaadi: postii, namoota, #tag, group..." />
+        <button id="clearSearchBtn" class="clear-search hidden" title="Haqi">✕</button>
+      </div>
+
+      <div class="nav-actions">
+        <button id="installBtn" class="btn btn-outline hidden" title="Appii Install Godhi">📲 Install</button>
+
+        <div id="userMenu" class="user-menu hidden">
+          <button id="chatInboxBtn" class="btn btn-ghost-sm" title="Chat Inbox / Ergaa Dhuunfaa">💬 Chat <span id="chatUnreadBadge" class="badge hidden">0</span></button>
+          <button id="spacesBtn" class="btn btn-ghost-sm" title="Groups fi Channels">🌐 Groups</button>
+          <button id="peopleBtn" class="btn btn-ghost-sm" title="Hiriyoota">👥 Hiriyoota <span id="pendingBadge" class="badge hidden">0</span></button>
+          <button id="notifBtn" class="icon-btn" title="Notifications">🔔 <span id="notifBadge" class="badge hidden">0</span></button>
+          <button id="logoutBtn" class="btn btn-danger-sm">Ba'i</button>
+        </div>
+
+        <!-- Top-Right Settings & Menu Button + Dropdown -->
+        <div class="top-right-menu-wrap">
+          <button id="topMenuBtn" class="btn btn-secondary top-menu-trigger" aria-expanded="false" aria-controls="topRightMenuDropdown" title="Settings & Menu">
+            ⚙️ Menu ▾
+          </button>
+          <div id="topRightMenuDropdown" class="top-menu-dropdown hidden" role="menu">
+            <div class="menu-section-label">⚙️ Qindaa'ina &amp; Odeeffannoo</div>
+            <button type="button" class="menu-item-btn" data-menu-action="website-settings">
+              <span>🌐 Website Settings</span>
+              <small>Theme, Notification, Social Links</small>
+            </button>
+            <button type="button" class="menu-item-btn" data-menu-action="vault">
+              <span>🗄️ Kuusa Hin Haqamne (Vault)</span>
+              <small>Backup &amp; Persistent Storage</small>
+            </button>
+            <button type="button" class="menu-item-btn" data-menu-action="profile">
+              <span>👤 Profaayilii Koo</span>
+              <small>Maqaa, Bio &amp; Stats</small>
+            </button>
+            <button type="button" class="menu-item-btn" data-menu-action="insights">
+              <span>📊 Insights &amp; Analytics</span>
+              <small>Sochii &amp; Gabaasa</small>
+            </button>
+
+            <div class="menu-divider"></div>
+            <div class="menu-section-label">📄 Waa'ee, Qunnamtii &amp; Seera (Legal)</div>
+            <button type="button" class="menu-item-btn" data-menu-action="about">
+              <span>ℹ️ About Us (Waa'ee Keenya)</span>
+              <small>Kaayyoo Nesru Peace</small>
+            </button>
+            <button type="button" class="menu-item-btn" data-menu-action="contact">
+              <span>📩 Contact Us (Nu Qunnamaa)</span>
+              <small>nesrumichael@gmail.com</small>
+            </button>
+            <button type="button" class="menu-item-btn" data-menu-action="legal">
+              <span>⚖️ Legal &amp; Terms</span>
+              <small>Terms, Transparency &amp; Privacy</small>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container">
+    <!-- Auth Section -->
+    <section id="authSection" class="card auth-card">
+      <div class="auth-header">
+        <h2>Baga Nagaan Gara <span>Nesru Peace</span> Dhuftan</h2>
+        <p>Yaada nagaa qooddadhaa, ergaa dhuunfaa ergaa, group fi channel uumaa.</p>
+      </div>
+      <div class="auth-tabs">
+        <button id="tabLogin" class="tab active">Seeni (Login)</button>
+        <button id="tabSignup" class="tab">Galmaa'i (Sign Up)</button>
+      </div>
+      <form id="authForm">
+        <div id="nameGroup" class="form-group hidden">
+          <label for="displayName">Maqaa Guutuu</label>
+          <input type="text" id="displayName" placeholder="Fkn: Nesru Michael" />
+        </div>
+        <div class="form-group">
+          <label for="email">Imeelii (Email)</label>
+          <input type="email" id="email" placeholder="maqaa@gmail.com" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Jecha Darbii (Password)</label>
+          <input type="password" id="password" placeholder="••••••••" required minlength="6" />
+        </div>
+        <button type="submit" id="authSubmitBtn" class="btn btn-primary full-width">Seeni</button>
+      </form>
+      <div class="divider"><span>YKN</span></div>
+      <button id="googleLoginBtn" class="btn btn-google full-width">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
+        Google Account tiin Seeni
+      </button>
+      <p id="authError" class="error-msg"></p>
+    </section>
+
+    <!-- Main App Section -->
+    <section id="appSection" class="hidden">
+
+      <!-- Search Results Panel -->
+      <div id="searchResultsBox" class="card hidden">
+        <div class="card-header">
+          <h3>🔍 Bu'aa Barbaachaa (Search Results)</h3>
+          <button id="closeSearchBoxBtn" class="close-btn">✕</button>
+        </div>
+        <div id="searchResultsContent"></div>
+      </div>
+
+      <!-- About Us Panel -->
+      <div id="aboutBox" class="card hidden">
+        <div class="card-header">
+          <h3>ℹ️ Waa'ee Keenya (About Us)</h3>
+          <button id="closeAboutBtn" class="close-btn">✕</button>
+        </div>
+        <p style="margin-bottom:0.65rem;"><strong>Baga gara Nesru Peace nagaan dhuftan!</strong></p>
+        <p class="muted" style="margin-bottom:0.65rem;">
+          Nesru Peace tajaajila teeknooloojii ammayyaa, saffisaa fi hawaasaaf mijataa ta'e dhiyeessuuf kan hundeeffameedha. Kaayyoon keenya inni guddaan namoonni salphaatti akka wal-qunnaman, yaada nagaa wal-jijjiiran, fi muuxannoo dijitaalaa amanamaa akka qabaatan taasisuudha.
+        </p>
+        <p class="muted">
+          Pirojektiin kun <strong>Nesru Michael</strong> tiin kan qophaa'ee fi hogganamu yoo ta'u, yeroo hunda fayyadamtootaaf tajaajila qulqullina qabuu fi amanamaa kennuuf ni hojjeta.
+        </p>
+      </div>
+
+      <!-- Contact Us Panel -->
+      <div id="contactBox" class="card hidden">
+        <div class="card-header">
+          <h3>📩 Nu Qunnamaa (Contact Us)</h3>
+          <button id="closeContactBtn" class="close-btn">✕</button>
+        </div>
+        <p class="muted" style="margin-bottom:0.75rem;">
+          Gaaffii, yaada, ykn gargaarsa teeknikaa yoo barbaaddan karaa armaan gadii nu qunnamuu dandeessu:
+        </p>
+        <div class="info-list-box">
+          <div><strong>Imeelii Deeggarsaa:</strong> <a href="mailto:nesrumichael@gmail.com" class="inline-link">nesrumichael@gmail.com</a></div>
+          <div><strong>Weebsaayitii:</strong> <a href="https://nesrupeace-t.netlify.app" target="_blank" rel="noopener" class="inline-link">nesrupeace-t.netlify.app</a> / <a href="https://nesru.dev" target="_blank" rel="noopener" class="inline-link">nesru.dev</a></div>
+          <div><strong>Yeroo Deebii:</strong> Ergaa keessan ergitanii sa'aatii 24 hanga 48 gidduutti deebii kennina.</div>
+        </div>
+      </div>
+
+      <!-- Legal, Terms, Transparency & Privacy Panel -->
+      <div id="legalBox" class="card hidden">
+        <div class="card-header">
+          <h3>⚖️ Haalawwan Tajaajilaa &amp; Imaammata (Legal &amp; Terms)</h3>
+          <button id="closeLegalBtn" class="close-btn">✕</button>
+        </div>
+
+        <div class="legal-block">
+          <h4>1. Haalawwan Tajaajilaa (Terms of Service)</h4>
+          <p class="muted">
+            Nesru Peace fayyadamuun keessan tajaajila kana kaayyoo seera-qabeessa ta'e qofaaf fayyadamuu keessan mirkaneessa. Namoota biroo jeequu, odeeffannoo sobaa tamsaasuu, ykn nageenya sirna kanaa miidhuun dhorkaadha.
+          </p>
+        </div>
+
+        <div class="legal-block">
+          <h4>2. Imaammata Iftoominaa (Transparency Policy)</h4>
+          <p class="muted">
+            Tajaajilli kun akkamitti akka hojjetu, daataan akkamitti akka sassaabamuu fi tajaajila irra akka oolu ifatti fayyadamtootaaf ni ibsina. Rakkoon teeknikaa ykn nageenya daataa yoo mudate, hatattamaan beeksisa ni kennina.
+          </p>
+        </div>
+
+        <div class="legal-block">
+          <h4>3. Imaammata Iccitii (Privacy Policy)</h4>
+          <p class="muted">
+            Odeeffannoo dhuunfaa keessanii qaama sadaffaaf hin gurgurru, hin kireessinu, akkasumas hayyama keessaniin alatti dabarsinee hin kenninu (seeraan yoo gaafatame malee).
+          </p>
+        </div>
+      </div>
+
+      <!-- Permanent Vault Panel -->
+      <div id="vaultBox" class="card hidden">
+        <div class="card-header">
+          <div>
+            <h3>🗄️ Kuusa Odeeffannoo Hin Haqamne (Persistent Vault)</h3>
+            <p class="muted">Hanga ati ofii keetii haqxutti ni tura; backup (.JSON) buufachuus ni dandeessa.</p>
+          </div>
+          <div style="display:flex;gap:0.45rem;align-items:center;">
+            <span id="vaultStatsBadge" class="post-cat-badge">Kuufaman: 0</span>
+            <button id="closeVaultBtn" class="close-btn">✕</button>
+          </div>
+        </div>
+
+        <form id="vaultForm">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="vaultTitle">Mata-duree (Title)</label>
+              <input type="text" id="vaultTitle" placeholder="Fkn: Yaadannoo, Walaloo, Koodii..." />
+            </div>
+            <div class="form-group">
+              <label for="vaultCategory">Gosa (Category)</label>
+              <input type="text" id="vaultCategory" placeholder="Fkn: Dhuunfaa, Pirojektii" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="vaultContent">Qabiyyee (Content)</label>
+            <textarea id="vaultContent" rows="3" placeholder="Waan hin haqamne turuu barbaaddu asitti barreessi..." required></textarea>
+          </div>
+          <div style="display:flex;gap:0.45rem;flex-wrap:wrap;">
+            <button type="submit" id="vaultSaveBtn" class="btn btn-primary">💾 Yeroo Hundaaf Kuusi</button>
+            <button type="button" id="vaultClearFormBtn" class="btn btn-ghost-sm">Qulqulleessi</button>
+            <button type="button" id="vaultExportBtn" class="btn btn-secondary">📥 Backup (.JSON)</button>
+            <button type="button" id="vaultImportBtn" class="btn btn-ghost-sm">📤 Deebisi (.JSON)</button>
+            <input type="file" id="vaultImportFile" accept=".json,application/json" class="hidden" />
+            <button type="button" id="vaultClearAllBtn" class="btn btn-danger-sm">Hunda Haqi</button>
+          </div>
+        </form>
+
+        <hr class="sep" />
+        <div id="vaultEntriesList"></div>
+      </div>
+
+      <!-- Website Settings Drawer / Panel -->
+      <div id="settingsBox" class="card hidden">
+        <div class="card-header">
+          <h3>⚙️ Website Settings (Qindaa'ina Weebsaayitii)</h3>
+          <button id="closeSettingsBtn" class="close-btn">✕</button>
+        </div>
+
+        <div class="settings-grid">
+          <div class="setting-item">
+            <div>
+              <strong>🌗 Bifa Fuulaa (Theme Mode)</strong>
+              <p class="muted">Dukkana (Dark) ykn Ifa (Light) filadhu</p>
+            </div>
+            <button id="toggleThemeBtn" class="btn btn-secondary">☀️ Light Mode</button>
+          </div>
+
+          <div class="setting-item">
+            <div>
+              <strong>🔔 Beeksisa Browser (Notifications)</strong>
+              <p class="muted">Ergaa haaraa fi like yeroo dhufu beeksisi</p>
+            </div>
+            <button id="enableBrowserNotifBtn" class="btn btn-outline">Eeyyami</button>
+          </div>
+
+          <div class="setting-item">
+            <div>
+              <strong>🔒 Eenyummaa &amp; Nageenya (Privacy)</strong>
+              <p class="muted">Ergaa dhuunfaa (DM) eenyutu siif erguu danda'a?</p>
+            </div>
+            <select id="dmPrivacySelect" style="width:auto;min-width:155px;">
+              <option value="everyone">Nama Hunda</option>
+              <option value="friends">Hiriyoota Qofa</option>
+            </select>
+          </div>
+        </div>
+
+        <hr class="sep" />
+
+        <h4 style="margin-bottom:0.5rem;color:var(--accent);">🔗 Social Media Walitti Hidhuu (Facebook, Instagram, X)</h4>
+        <p class="muted" style="margin-bottom:0.85rem;">Liinkii account keessanii galchaa; namoonni profaayilii keessan yeroo banan kallattiin arguu danda'u.</p>
+        <form id="socialLinksForm">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="socialFacebook">📘 Facebook (URL ykn Username)</label>
+              <input type="text" id="socialFacebook" placeholder="https://facebook.com/maqaa" />
+            </div>
+            <div class="form-group">
+              <label for="socialInstagram">📸 Instagram (URL ykn @username)</label>
+              <input type="text" id="socialInstagram" placeholder="https://instagram.com/maqaa" />
+            </div>
+            <div class="form-group">
+              <label for="socialX">𝕏 X / Twitter (URL ykn @username)</label>
+              <input type="text" id="socialX" placeholder="https://x.com/maqaa" />
+            </div>
+            <div class="form-group">
+              <label for="socialOther">✈️ Telegram / YouTube / Website</label>
+              <input type="text" id="socialOther" placeholder="https://t.me/maqaa ykn nesru.dev" />
+            </div>
+          </div>
+          <div style="display:flex;gap:0.6rem;flex-wrap:wrap;">
+            <button type="submit" class="btn btn-primary">💾 Qindaa'ina Ol-kaa'i (Save Settings)</button>
+            <button type="button" id="openProfileFromSettingsBtn" class="btn btn-ghost">👤 Profaayilii Gulaali</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Direct Message & Chat Inbox Panel -->
+      <div id="chatBox" class="card hidden">
+        <div class="card-header">
+          <h3>💬 Ergaa Dhuunfaa &amp; Chat Inbox</h3>
+          <button id="closeChatBtn" class="close-btn">✕</button>
+        </div>
+
+        <div class="chat-layout">
+          <div class="chat-sidebar">
+            <div class="form-group" style="margin-bottom:0.6rem;">
+              <select id="startNewChatSelect">
+                <option value="">➕ Nama haaraa waliin haasa'i...</option>
+              </select>
+            </div>
+            <div id="chatThreadsList" class="chat-threads"></div>
+          </div>
+
+          <div class="chat-window">
+            <div id="activeChatHeader" class="chat-win-header">
+              <span class="muted">Marii jalqabuuf hiriyaa ykn nama tokko filadhaa</span>
+            </div>
+            <div id="dmMessagesContainer" class="dm-messages">
+              <p class="muted" style="text-align:center;margin-top:2rem;">Ergaan dhuunfaa (Direct Message) asitti mul'ata.</p>
+            </div>
+            <form id="dmSendForm" class="dm-form hidden">
+              <input type="text" id="dmInput" placeholder="Ergaa dhuunfaa barreessaa..." required autocomplete="off" />
+              <button type="submit" class="btn btn-primary">Ergi ➤</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Own Profile Edit Box -->
+      <div id="profileBox" class="card profile-card hidden">
+        <div class="card-header">
+          <h3>Profaayilii Koo Gulaali</h3>
+          <button id="closeProfileBtn" class="close-btn">✕</button>
+        </div>
+        <div class="profile-info">
+          <img id="profileAvatarPreview" src="https://ui-avatars.com/api/?name=User&background=10b981&color=fff" alt="Avatar" class="avatar-lg" />
+          <div>
+            <div id="myProfileStats" class="stats-row"></div>
+            <p id="profileEmailDisplay" class="muted"></p>
+            <div id="mySocialBadges" class="social-badges-row" style="margin-top:0.4rem;"></div>
+          </div>
+        </div>
+        <form id="profileForm">
+          <div class="form-group">
+            <label for="editName">Maqaa Mul'atu</label>
+            <input type="text" id="editName" required />
+          </div>
+          <div class="form-group">
+            <label for="editBio">Waa'ee Keessan (Bio)</label>
+            <input type="text" id="editBio" placeholder="Nagaa, jaalala, yaada..." />
+          </div>
+          <button type="submit" class="btn btn-primary">Ol-kaa'i (Save)</button>
+        </form>
+      </div>
+
+      <!-- Notifications Panel -->
+      <div id="notifBox" class="card hidden">
+        <div class="card-header">
+          <h3>🔔 Beeksisa Haaraa (Notifications)</h3>
+          <div style="display:flex;gap:0.5rem;align-items:center;">
+            <button id="markAllReadBtn" class="btn btn-ghost-sm">Hunda Dubbifame Jedhi</button>
+            <button id="closeNotifBtn" class="close-btn">✕</button>
+          </div>
+        </div>
+        <div id="notifListContainer"></div>
+      </div>
+
+      <!-- Insights / Analytics Panel -->
+      <div id="insightsBox" class="card hidden">
+        <div class="card-header">
+          <h3>📊 Insights &amp; Gabaasa Hojii (Analytics)</h3>
+          <button id="closeInsightsBtn" class="close-btn">✕</button>
+        </div>
+        <div id="insightsContent"></div>
+      </div>
+
+      <!-- Groups & Channels Panel -->
+      <div id="spacesBox" class="card hidden">
+        <div class="card-header">
+          <h3>🌐 Groups fi Channels</h3>
+          <button id="closeSpacesBtn" class="close-btn">✕</button>
+        </div>
+
+        <form id="createSpaceForm" class="space-create-box">
+          <h4>➕ Group ykn Channel Haaraa Uumi</h4>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="spaceType">Gosa (Type)</label>
+              <select id="spaceType">
+                <option value="group">👥 Group (Hundi ni postaa, ni mari'ata)</option>
+                <option value="channel">📢 Channel (Abbaa uume qofaatu maxxansa)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="spaceName">Maqaa Group / Channel</label>
+              <input type="text" id="spaceName" placeholder="Fkn: Nagaa Oromiyaa" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="spaceDesc">Ibsa Gabaabaa (Description)</label>
+            <input type="text" id="spaceDesc" placeholder="Kaayyoo group ykn channel kanaa..." required />
+          </div>
+          <button type="submit" class="btn btn-primary">Uumi (Create)</button>
+        </form>
+
+        <div class="sub-tabs" style="margin-top:1rem;">
+          <button class="space-tab active" data-spacetab="all">Hunda</button>
+          <button class="space-tab" data-spacetab="group">Groups</button>
+          <button class="space-tab" data-spacetab="channel">Channels</button>
+        </div>
+
+        <div id="spacesListContainer"></div>
+
+        <div id="activeSpaceRoom" class="space-room hidden">
+          <div class="space-room-header">
+            <div>
+              <h4 id="roomTitle"></h4>
+              <p id="roomMeta" class="muted"></p>
+            </div>
+            <button id="closeRoomBtn" class="btn btn-ghost-sm">Cufi</button>
+          </div>
+          <div id="roomPostsContainer" class="room-posts"></div>
+          <form id="roomPostForm" class="room-post-form">
+            <input type="text" id="roomPostInput" placeholder="Ergaa ykn postii gara kutaa kanaatti ergi..." required />
+            <button type="submit" class="btn btn-primary">Ergi</button>
+          </form>
+          <p id="roomPermissionNote" class="muted" style="margin-top:0.4rem;"></p>
+        </div>
+      </div>
+
+      <!-- People / Friends / Requests Directory -->
+      <div id="peopleBox" class="card hidden">
+        <div class="card-header">
+          <h3>👥 Hawaasa &amp; Hiriyoota</h3>
+          <button id="closePeopleBtn" class="close-btn">✕</button>
+        </div>
+        <div class="sub-tabs">
+          <button class="sub-tab active" data-subtab="discover">Namoota Hunda</button>
+          <button class="sub-tab" data-subtab="requests">Gaaffii Hiriyummaa (<span id="reqCountTab">0</span>)</button>
+          <button class="sub-tab" data-subtab="friends">Hiriyoota Koo (<span id="friendsCountTab">0</span>)</button>
+        </div>
+        <div id="peopleListContainer"></div>
+      </div>
+
+      <!-- User Profile Inspector Modal -->
+      <div id="userInspectorModal" class="modal-backdrop hidden">
+        <div class="card modal-card">
+          <div class="card-header">
+            <h3>Odeeffannoo Profaayilii</h3>
+            <button id="closeInspectorBtn" class="close-btn">✕</button>
+          </div>
+          <div id="inspectorContent"></div>
+        </div>
+      </div>
+
+      <!-- Create Post Box with Categories & Tags -->
+      <div class="card create-post-card">
+        <div class="post-input-row">
+          <img id="currentUserAvatar" src="https://ui-avatars.com/api/?name=NP&background=10b981&color=fff" alt="User" class="avatar" />
+          <div style="flex:1;">
+            <textarea id="postContent" rows="3" placeholder="Maal yaadaa jirtu? Yaada nagaa qooddadhaa... (Ctrl+Enter dafee maxxansuuf)"></textarea>
+            <div class="post-meta-inputs">
+              <select id="postCategory" title="Mata-duree (Category)">
+                <option value="Nagaa">🕊️ Nagaa (Peace)</option>
+                <option value="Hawaasa">🌍 Hawaasa (Community)</option>
+                <option value="Walaloo">✍️ Walaloo &amp; Ogbarruu</option>
+                <option value="Barnoota">📚 Barnoota &amp; Beekumsa</option>
+                <option value="Teeknooloojii">💻 Teeknooloojii</option>
+                <option value="Oduu">📰 Oduu &amp; Yaada</option>
+              </select>
+              <input type="text" id="postTagsInput" placeholder="🏷️ Tags (fkn: #nagaa, #oromiyaa, #jaalala)" />
+            </div>
+          </div>
+        </div>
+        <div id="imagePreviewContainer" class="image-preview hidden">
+          <img id="imagePreview" src="" alt="Preview" />
+          <button id="removeImageBtn" class="remove-img-btn" title="Haqi">✕</button>
+        </div>
+        <div class="post-actions-bar">
+          <label for="postImageInput" class="btn btn-ghost">
+            🖼️ Suuraa Dabali
+            <input type="file" id="postImageInput" accept="image/*" hidden />
+          </label>
+          <button id="publishPostBtn" class="btn btn-primary">⚡ Dafii Maxxansi (Post)</button>
+        </div>
+      </div>
+
+      <!-- Feed Scope Filter Tabs -->
+      <div class="feed-filter">
+        <button class="filter-btn active" data-filter="all">Hunda (For You)</button>
+        <button class="filter-btn" data-filter="friends">Hiriyoota Koo</button>
+        <button class="filter-btn" data-filter="mine">Postii Koo</button>
+      </div>
+
+      <!-- Category & Tag Filter Chips -->
+      <div id="categoryFilterBar" class="category-chips">
+        <button class="cat-chip active" data-cat="all">🌐 Hunda</button>
+        <button class="cat-chip" data-cat="Nagaa">🕊️ Nagaa</button>
+        <button class="cat-chip" data-cat="Hawaasa">🌍 Hawaasa</button>
+        <button class="cat-chip" data-cat="Walaloo">✍️ Walaloo</button>
+        <button class="cat-chip" data-cat="Barnoota">📚 Barnoota</button>
+        <button class="cat-chip" data-cat="Teeknooloojii">💻 Teeknooloojii</button>
+        <button class="cat-chip" data-cat="Oduu">📰 Oduu</button>
+        <span id="activeTagBadge" class="active-tag-pill hidden"></span>
+      </div>
+
+      <!-- Posts Feed -->
+      <div id="feedContainer" class="feed-list">
+        <div class="loading-spinner">Fe'aa jira...</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer with Creator & Copyright Year -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <p>Created by <strong>Nesru Michael</strong></p>
+      <p>&copy; <span id="copyrightYear">2026</span> <strong>Nesru Peace</strong>. Mirgi Qopheessaa Seeraan Kan Eegame (All Rights Reserved).</p>
+    </div>
+  </footer>
+
+  <script type="module" src="app.js"></script>
+  <script>
+    document.getElementById("copyrightYear").textContent = new Date().getFullYear();
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(err => console.error(err));
+      });
+    }
+  </script>
+</body>
+</html>
